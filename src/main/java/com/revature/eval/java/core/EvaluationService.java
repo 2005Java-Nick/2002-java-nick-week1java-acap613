@@ -1,6 +1,8 @@
 package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +33,23 @@ public class EvaluationService {
 	 */
 	public String acronym(String phrase) {
 		// TODO Write an implementation for this method declaration
-		return null;
+String[] text = phrase.split("[-\\s]");
+		
+		String acronymStr = "";
+		
+		for (int i = 0; i < text.length; i++) {
+			if(Character.isAlphabetic(text[i].charAt(0))) {
+				acronymStr = acronymStr + text[i].charAt(0);
+				
+			} 
+			
+			
+		}
+		System.out.println(acronymStr.toUpperCase());	
+		
+		return acronymStr.toUpperCase();
+		
+		
 	}
 
 	/**
@@ -85,16 +103,25 @@ public class EvaluationService {
 
 		public boolean isEquilateral() {
 			// TODO Write an implementation for this method declaration
+			if(sideOne == sideTwo && sideTwo== sideThree) {
+				return true;
+			}
 			return false;
 		}
 
 		public boolean isIsosceles() {
 			// TODO Write an implementation for this method declaration
+			if(sideOne == sideTwo || sideTwo== sideThree || sideOne == sideThree) {
+				return true;
+			}
 			return false;
 		}
 
 		public boolean isScalene() {
 			// TODO Write an implementation for this method declaration
+			if(sideOne != sideTwo && sideTwo != sideThree && sideThree != sideOne) {
+				return true;
+			}
 			return false;
 		}
 
@@ -117,7 +144,28 @@ public class EvaluationService {
 	 */
 	public int getScrabbleScore(String string) {
 		// TODO Write an implementation for this method declaration
-		return 0;
+//		int letterValue;
+//		String[] onePointLetters = {"A", "E", "I", "O", "U", "L", "N", "R", "S", "T"};
+//		String[] twoPointLetters = {"D", "G"};
+//		String[] threePointLetters = {"B", "C", "M", "P"};
+//		String[] fourPointLetters = {"F", "H", "V", "W", "Y"};
+//		String[] fivePointLetters = {"K"};
+//		String[] eightPointLetters = {"J", "X"};
+//		String[] tenPointLetters = {"Q", "Z"};
+//		
+//		if(onePointLetters) {
+//			
+//		}
+		
+		String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		int[] values = {1,3,3,2,1,4,2,4,1,8,5,1,3,1,1,3,10,1,1,1,1,4,4,8,4,10};
+		int sum = 0;
+		
+		for(int i = 0; i < string.length(); i ++) {
+			string = string.toUpperCase();
+			sum += values[alphabet.indexOf(string.charAt(i))];
+		}
+		return sum;
 	}
 
 	/**
@@ -153,7 +201,15 @@ public class EvaluationService {
 	 */
 	public String cleanPhoneNumber(String string) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		
+		String str = string.replaceAll("[^0-9]", "");
+
+		if(str.length() != 10) {
+			throw new IllegalArgumentException();
+		}
+		
+		
+		return str;
 	}
 
 	/**
@@ -167,7 +223,18 @@ public class EvaluationService {
 	 */
 	public Map<String, Integer> wordCount(String string) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		//Map<String, Integer> wordCount("words in the string")...
+		String[] str = string.split("[,\\s]");
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		for (String s: str) {
+			if(!map.containsKey(s)) {
+				map.put(s,1);
+			} else {
+				int count = map.get(s);
+				map.put(s,  count+1);
+			}
+		}
+		return map;
 	}
 
 	/**
@@ -209,7 +276,7 @@ public class EvaluationService {
 		private List<T> sortedList;
 
 		public int indexOf(T t) {
-			// TODO Write an implementation for this method declaration
+			//int index = Collections.binarySearch(sortedList, t);
 			return 0;
 		}
 
@@ -247,8 +314,27 @@ public class EvaluationService {
 	 */
 	public String toPigLatin(String string) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		
+		String[] word = string.split(" ");
+		int wordLength = string.length();
+		int index = -1;
+		
+		for (int i = 0; i< wordLength; i++) {
+			if(string.charAt(i)=='a'||string.charAt(i)=='e'||string.charAt(i)=='i'||string.charAt(i)=='o'||string.charAt(i)=='u'
+			||string.charAt(i)=='A'||string.charAt(i)=='E'||string.charAt(i)=='I'||string.charAt(i)=='O'||string.charAt(i)=='U') {
+				index = i;
+				break;
+			}
+		}
+		
+		if(index == -1) {
+			return "-1";
+		}
+		
+		return string.substring(index)+string.substring(0,index)+"ay";		
+		
 	}
+
 
 	/**
 	 * 9. An Armstrong number is a number that is the sum of its own digits each
@@ -267,7 +353,31 @@ public class EvaluationService {
 	 */
 	public boolean isArmstrongNumber(int input) {
 		// TODO Write an implementation for this method declaration
-		return false;
+		int num = input;
+		int number;
+		int remainder;
+		int result = 0;
+		//creating an 'n' variable for the exponent
+		String str = Integer.toString(num);
+		int[] numLength = new int[str.length()];
+		int n = numLength.length;
+		
+		
+		number = num;
+		
+		while (number != 0) {
+			remainder = number % 10;
+			
+			result += Math.pow(remainder, n);
+			
+			number /= 10;
+			
+		}
+		if(result == num) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -282,6 +392,8 @@ public class EvaluationService {
 	 */
 	public List<Long> calculatePrimeFactorsOf(long l) {
 		// TODO Write an implementation for this method declaration
+		Long number = l;
+		
 		return null;
 	}
 
